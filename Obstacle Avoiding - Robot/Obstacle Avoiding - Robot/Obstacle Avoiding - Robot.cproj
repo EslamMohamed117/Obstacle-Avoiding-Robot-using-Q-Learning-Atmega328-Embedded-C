@@ -20,10 +20,10 @@
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
     <ProgFlashFromRam>true</ProgFlashFromRam>
-    <RamSnippetAddress />
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
     <UncachedRange />
     <preserveEEPROM>true</preserveEEPROM>
-    <OverrideVtorValue />
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
     <BootSegment>2</BootSegment>
     <ResetRule>0</ResetRule>
     <eraseonlaunchrule>0</eraseonlaunchrule>
@@ -40,6 +40,20 @@
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
+    <avrtool>custom</avrtool>
+    <avrtoolserialnumber />
+    <avrdeviceexpectedsignature>0x1E950F</avrdeviceexpectedsignature>
+    <custom>
+      <ToolOptions xmlns="">
+        <InterfaceProperties>
+        </InterfaceProperties>
+      </ToolOptions>
+      <ToolType xmlns="">custom</ToolType>
+      <ToolNumber xmlns="">
+      </ToolNumber>
+      <ToolName xmlns="">Custom Programming Tool</ToolName>
+    </custom>
+    <CustomProgrammingToolCommand>-v -patmega328p -carduino -P COM3 -b115200 -D -Uflash:w:"$(ProjectDir)Debug\$(TargetName).hex":i -C"C:\avrdude\avrdude.conf"</CustomProgrammingToolCommand>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -91,18 +105,6 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DIO\DIO_Interface.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="DIO\DIO_SRC.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="DIO\LIB\MATH.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="DIO\LIB\STD_TYPES.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="DIO_Private.h">
       <SubType>compile</SubType>
     </Compile>
@@ -147,8 +149,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DIO" />
-    <Folder Include="DIO\LIB" />
     <Folder Include="Ultarasonic" />
     <Folder Include="Ultarasonic\DIO" />
     <Folder Include="Ultarasonic\DIO\LIB" />

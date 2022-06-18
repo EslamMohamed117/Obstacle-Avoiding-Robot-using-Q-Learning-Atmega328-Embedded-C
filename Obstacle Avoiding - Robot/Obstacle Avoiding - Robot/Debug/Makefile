@@ -32,12 +32,20 @@ LIB_DEP:=
 LINKER_SCRIPT_DEP:=
 
 # Every subdirectory with source files must be described here
-SUBDIRS := 
+SUBDIRS :=  \
+../Ultarasonic \
+../Ultarasonic/DIO \
+../Ultarasonic/DIO/LIB
 
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
-../main.c
+../main.c \
+../Q-learning.c \
+../RC_Controling.c \
+../ServoMotor.c \
+../Ultarasonic/DIO/DIO_SRC.c \
+../Ultarasonic/Ultrasonic_Src.c
 
 
 PREPROCESSING_SRCS += 
@@ -47,16 +55,36 @@ ASM_SRCS +=
 
 
 OBJS +=  \
-main.o
+main.o \
+Q-learning.o \
+RC_Controling.o \
+ServoMotor.o \
+Ultarasonic/DIO/DIO_SRC.o \
+Ultarasonic/Ultrasonic_Src.o
 
 OBJS_AS_ARGS +=  \
-main.o
+main.o \
+Q-learning.o \
+RC_Controling.o \
+ServoMotor.o \
+Ultarasonic/DIO/DIO_SRC.o \
+Ultarasonic/Ultrasonic_Src.o
 
 C_DEPS +=  \
-main.d
+main.d \
+Q-learning.d \
+RC_Controling.d \
+ServoMotor.d \
+Ultarasonic/DIO/DIO_SRC.d \
+Ultarasonic/Ultrasonic_Src.d
 
 C_DEPS_AS_ARGS +=  \
-main.d
+main.d \
+Q-learning.d \
+RC_Controling.d \
+ServoMotor.d \
+Ultarasonic/DIO/DIO_SRC.d \
+Ultarasonic/Ultrasonic_Src.d
 
 OUTPUT_FILE_PATH +=Obstacle\ Avoiding\ -\ Robot.elf
 
@@ -73,6 +101,41 @@ LINKER_SCRIPT_DEP+=
 
 # AVR32/GNU C Compiler
 ./main.o: .././main.c
+	@echo Building file: $<
+	@echo Invoking: XC8 C Compiler : 2.31
+	$(QUOTE)C:\Program Files\Microchip\xc8\v2.31\bin\xc8-cc.exe$(QUOTE)  -mcpu=ATmega328P  -mdfp="C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\xc8"  -c -x c -funsigned-char -funsigned-bitfields -mext=cci -D__ATmega328P__ -DDEBUG  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./Q-learning.o: .././Q-learning.c
+	@echo Building file: $<
+	@echo Invoking: XC8 C Compiler : 2.31
+	$(QUOTE)C:\Program Files\Microchip\xc8\v2.31\bin\xc8-cc.exe$(QUOTE)  -mcpu=ATmega328P  -mdfp="C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\xc8"  -c -x c -funsigned-char -funsigned-bitfields -mext=cci -D__ATmega328P__ -DDEBUG  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./RC_Controling.o: .././RC_Controling.c
+	@echo Building file: $<
+	@echo Invoking: XC8 C Compiler : 2.31
+	$(QUOTE)C:\Program Files\Microchip\xc8\v2.31\bin\xc8-cc.exe$(QUOTE)  -mcpu=ATmega328P  -mdfp="C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\xc8"  -c -x c -funsigned-char -funsigned-bitfields -mext=cci -D__ATmega328P__ -DDEBUG  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./ServoMotor.o: .././ServoMotor.c
+	@echo Building file: $<
+	@echo Invoking: XC8 C Compiler : 2.31
+	$(QUOTE)C:\Program Files\Microchip\xc8\v2.31\bin\xc8-cc.exe$(QUOTE)  -mcpu=ATmega328P  -mdfp="C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\xc8"  -c -x c -funsigned-char -funsigned-bitfields -mext=cci -D__ATmega328P__ -DDEBUG  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+Ultarasonic/DIO/DIO_SRC.o: ../Ultarasonic/DIO/DIO_SRC.c
+	@echo Building file: $<
+	@echo Invoking: XC8 C Compiler : 2.31
+	$(QUOTE)C:\Program Files\Microchip\xc8\v2.31\bin\xc8-cc.exe$(QUOTE)  -mcpu=ATmega328P  -mdfp="C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\xc8"  -c -x c -funsigned-char -funsigned-bitfields -mext=cci -D__ATmega328P__ -DDEBUG  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+Ultarasonic/Ultrasonic_Src.o: ../Ultarasonic/Ultrasonic_Src.c
 	@echo Building file: $<
 	@echo Invoking: XC8 C Compiler : 2.31
 	$(QUOTE)C:\Program Files\Microchip\xc8\v2.31\bin\xc8-cc.exe$(QUOTE)  -mcpu=ATmega328P  -mdfp="C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\xc8"  -c -x c -funsigned-char -funsigned-bitfields -mext=cci -D__ATmega328P__ -DDEBUG  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

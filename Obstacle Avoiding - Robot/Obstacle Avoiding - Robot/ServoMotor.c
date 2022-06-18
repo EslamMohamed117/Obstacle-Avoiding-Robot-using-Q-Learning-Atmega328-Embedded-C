@@ -10,7 +10,7 @@
  
 void config_servo_timer()
 {
-	DIO_SetPinDirection(1,1,OUTPUT); //set portB pin 1 as output (OC1A)
+	DIO_SetPinDirection(PORT1,1,OUTPUT); //set portB pin 1 as output (OC1A)
 	SET_BIT(TCCR1B,CS10);//
 	SET_BIT(TCCR1B,CS11);// SET pre_scaler value = 64
 	CLR_BIT(TCCR1B,CS12);//
@@ -22,9 +22,12 @@ void config_servo_timer()
 	CLR_BIT(TCCR1A,COM1A0);// NON INVERTING MODE COPMARE WITH OCR1A
 	SET_BIT(TCCR1A,COM1A1);
 	
+//	sei();					//enable global interrupt
+	//SET_BIT(TIMSK0,TOIE0);	//enable Timer 0 Overflow interrupt
 	
 	ICR1 = 4999;			//pre_load value to achieve 50hz (20mS) PWM signal at OC1A pin
-	
+	//TCNT1 = 60535;
+	TCNT1 = 0;
 	
 	//set_servo_angel(0);     // servo starts at angel ZERO CENTER
 }
@@ -32,18 +35,28 @@ void config_servo_timer()
 
 void set_servo_angel(s8 angle)  //change the OCR0A value to control PWM Signal DutyCycle to control Servo Rotation angel
 {
+	
 	config_servo_timer();
 	switch(angle)
 	{
 	case -90:
-		OCR1A=149;
-		break; //to obtain a Positive pulse = 3% duty cycle
+	OCR1A=149;
+	break; //to obtain a Positive pulse = 3% duty cycle
 	case 0:
-		OCR1A=349;
-		break; //to obtain a Positive pulse = 7% duty cycle
+	OCR1A=349;
+	break; //to obtain a Positive pulse = 7% duty cycle
 	case 90:
-		OCR1A=599;
-		break; //to obtain a Positive pulse = 12% duty cycle
+	OCR1A=599;
+	break; //to obtain a Positive pulse = 12% duty cycle
 	}
-	ICR1=0; // to hand the timer to Ultrasonic
+//	ICR1=0; // to hand the timer to Ultrasonic
+
+
+
+}
+
+ISR(TIMER1_OVF_vect)   //Timer0 Overflow Interrupt service routine
+{
+	TCNT1=60535;		//pre-load value to TCNT0 register
+	sei();			// reEnable global interrupt
 }

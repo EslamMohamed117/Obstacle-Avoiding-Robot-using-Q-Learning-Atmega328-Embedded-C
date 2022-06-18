@@ -39,7 +39,7 @@ float Q[STATES][NUMBER_OF_ACTIONS] = {{0.0,0.0,0.0,0.0},  //MOST IMPORTANT OF AL
                                       {0.0,0.0,0.0,0.0}};
 
 
-int REWARDS[STATES][NUMBER_OF_ACTIONS] = {{-10,-2,10,8}, 
+int REWARDS[STATES][NUMBER_OF_ACTIONS] = {{-10,-2,10,10}, 
                                           {-10,-2,10,-10}, 
                                           {-10,-2,-10,10}, 
                                           {-10,10,-10,-10}
@@ -139,8 +139,8 @@ u16 GET_STATE()
   bool Obstacle_left = false;
   bool Obstacle_right = false;
   
-  set_servo_angel(RIGHT);
-  _delay_ms(500);
+  set_servo_angel(90);
+  _delay_ms(5000);
   distance=ultarasonic_distance();
 
   if(distance < 20)
@@ -148,8 +148,8 @@ u16 GET_STATE()
     Obstacle_right = true;
   }
   
-  set_servo_angel(LEFT);
-   _delay_ms(500);
+  set_servo_angel(-90);
+   _delay_ms(5000);
    distance=ultarasonic_distance();
    
   if(distance < 20)
@@ -157,8 +157,8 @@ u16 GET_STATE()
     Obstacle_left = true;
   }
 
-  set_servo_angel(CENTER);
-   _delay_ms(500);
+  set_servo_angel(0);
+   _delay_ms(5000);
    
   if(Obstacle_right && Obstacle_left)
   {
@@ -241,7 +241,7 @@ bool Obstacle_Avoider()
 {
    distance=ultarasonic_distance();
   
-  if(distance<20)
+  if(distance<40)
   { 
 	 
     Obstacle = true;
@@ -344,8 +344,10 @@ void Train()
 			 Obstacle = Obstacle_Avoider();
             if(Obstacle == true)
             {  
-				 
+			//	stop();
+			  //STATE = GET_STATE(); 
               NEXT_STATE = (STATE+1) % STATES; 
+			  
              // printf("\nSTATE: %d ",  STATE);
               FLAG = 1;
               break;
@@ -373,7 +375,7 @@ void Train()
          {
           //forward();
 		  DIO_SetPinValue(2,4,1);
-          _delay_ms(1000);
+          _delay_ms(10000);
 		  DIO_SetPinValue(2,4,0);
           stop();
           REWARD = REWARDS[STATE][ACTION];
@@ -383,7 +385,7 @@ void Train()
          {
           backward();
 		  DIO_SetPinValue(2,3,1);
-          _delay_ms(1000);
+          _delay_ms(10000);
 		    DIO_SetPinValue(2,3,0);
           stop();
           REWARD = REWARDS[STATE][ACTION];
@@ -393,7 +395,7 @@ void Train()
          {
           right();
 		  DIO_SetPinValue(2,2,1);
-		  _delay_ms(1000);
+		  _delay_ms(10000);
 		  DIO_SetPinValue(2,2,0);
 		  stop();
           REWARD = REWARDS[STATE][ACTION];
@@ -403,7 +405,7 @@ void Train()
          {
           left();
           		  DIO_SetPinValue(2,1,1);
-          		  _delay_ms(1000);
+          		  _delay_ms(10000);
           		  DIO_SetPinValue(2,1,0);
           stop();
           REWARD = REWARDS[STATE][ACTION];
@@ -465,18 +467,22 @@ void Test(){
 	 DIO_SetPinValue(PORT2,5,1);
 while(true)
  {
+ // set_servo_angel(0);
   forward();
   Obstacle = Obstacle_Avoider();
   if(Obstacle == true)
    {
-	 stop();
-     STATE = GET_STATE();
+	   stop();
+	   _delay_ms(3000);
+	   STATE = GET_STATE();
+	 
+     
      ACTION = ARGMAX(Q,STATE);
       
      if(ACTION ==0)
       {
-        forward();
-        _delay_ms(1000);
+       // forward();
+        _delay_ms(10000);
         stop();
       }
 
@@ -484,24 +490,30 @@ while(true)
        {
         backward();
        DIO_SetPinValue(2,3,1);
-       _delay_ms(1000);
+       _delay_ms(10000);
        DIO_SetPinValue(2,3,0);
         stop();
        }
      if(ACTION == 2)
        {
+		backward();
+		_delay_ms(3000);
+		stop();
         right();
 		 DIO_SetPinValue(2,2,1);
-		 _delay_ms(1000);
+		 _delay_ms(10000);
 		 DIO_SetPinValue(2,2,0);
 		 stop();
        }
 
      if(ACTION == 3)
        {
+		backward();
+		_delay_ms(3000);
+		stop();
         left();
        DIO_SetPinValue(2,1,1);
-       _delay_ms(1000);
+       _delay_ms(10000);
        DIO_SetPinValue(2,1,0);
         stop();
        }

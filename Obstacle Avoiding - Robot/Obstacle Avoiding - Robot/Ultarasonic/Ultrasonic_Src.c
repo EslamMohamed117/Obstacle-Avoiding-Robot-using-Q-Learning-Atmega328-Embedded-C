@@ -15,7 +15,7 @@ u16 ultarasonic_distance()
 	TIFR1 = (1<<ICF1);  // Clear ICF (Input Capture flag)
 	
 	DIO_SetPinValue(PORT3,PIN7,1);//here we are configuring the rising edge of the trigger
-	_delay_us(50);
+	_delay_us(500);
 	DIO_SetPinValue(PORT3,PIN7,0); // waiting about 50 micro second as pulse duration
 	
 	// again we are configuring the falling after
