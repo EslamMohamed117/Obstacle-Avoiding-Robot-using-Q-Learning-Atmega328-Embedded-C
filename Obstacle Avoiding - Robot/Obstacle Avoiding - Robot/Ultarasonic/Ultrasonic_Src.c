@@ -50,7 +50,7 @@ u16 ultarasonic_distance()
 	TCNT1=0;
 	TCCR1B = 0;  		/* Stop the timer */
 	high=b-a;
-	distance=((high*34600)/(F_CPU/8)) ;
+	distance=((high*34600)/((F_CPU/8)*2 )) ;
 	
 	return distance;
 }
