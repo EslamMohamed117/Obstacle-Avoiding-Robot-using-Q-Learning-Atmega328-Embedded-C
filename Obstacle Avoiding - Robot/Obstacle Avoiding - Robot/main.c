@@ -8,7 +8,7 @@
 #include "ServoMotor.h"
 #include "RC_Controling_interface.h"
 #include "Q_learn.h"
-#define  F_CPU 1000000UL
+#define  F_CPU 16000000UL
 #include <util/delay.h>
  
 int main(void)
