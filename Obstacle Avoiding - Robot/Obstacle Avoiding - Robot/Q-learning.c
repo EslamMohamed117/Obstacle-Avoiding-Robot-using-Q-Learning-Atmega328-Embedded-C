@@ -395,6 +395,7 @@ void Train()
 		  DIO_SetPinValue(2,2,1);
 		  _delay_ms(1000);
 		  DIO_SetPinValue(2,2,0);
+		  stop();
           REWARD = REWARDS[STATE][ACTION];
          }
 
@@ -493,6 +494,7 @@ while(true)
 		 DIO_SetPinValue(2,2,1);
 		 _delay_ms(1000);
 		 DIO_SetPinValue(2,2,0);
+		 stop();
        }
 
      if(ACTION == 3)

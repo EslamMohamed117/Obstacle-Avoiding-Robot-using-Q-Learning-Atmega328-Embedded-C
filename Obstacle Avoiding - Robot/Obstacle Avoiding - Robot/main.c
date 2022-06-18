@@ -19,8 +19,8 @@ int main(void)
 	DIO_SetPinDirection(PORT2,2,OUTPUT);
 	DIO_SetPinDirection(PORT2,1,OUTPUT);
 	DIO_SetPinDirection(PORT3,PIN7,OUTPUT);
-	config_servo_timer();
-	
+	//config_servo_timer();
+	set_servo_angel(0); // Configuration + center position
 	 // led1>>left   led2>>right   led3>>backward    led4>>forward 
 	 
    Train(); 

@@ -32,6 +32,7 @@ void config_servo_timer()
 
 void set_servo_angel(s8 angle)  //change the OCR0A value to control PWM Signal DutyCycle to control Servo Rotation angel
 {
+	config_servo_timer();
 	switch(angle)
 	{
 	case -90:
@@ -44,4 +45,5 @@ void set_servo_angel(s8 angle)  //change the OCR0A value to control PWM Signal D
 		OCR1A=599;
 		break; //to obtain a Positive pulse = 12% duty cycle
 	}
+	ICR1=0; // to hand the timer to Ultrasonic
 }
