@@ -3,7 +3,6 @@
 
 
 u16 GET_STATE();
-void Print_Q_table();
 void Train();
 void Test();
 
