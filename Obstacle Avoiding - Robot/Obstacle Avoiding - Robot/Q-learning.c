@@ -26,10 +26,10 @@ int EPISODES  = 100;
 //Set the state of the robot with 0
 int STATE = 0;
 /*Action Performed by the robot
-  1: Stop
-  2: backward
-  3: right
-  4: left  */                        
+  0: Stop
+  1: backward
+  2: right
+  3: left  */                        
 int ACTION = 0;
 //Random number between 1 and 0 @ used for Epsilon                    
 float PROB;            
