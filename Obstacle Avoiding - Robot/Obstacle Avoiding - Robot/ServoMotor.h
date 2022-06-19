@@ -9,5 +9,5 @@ void set_servo_angel(s8 angle);
 #define RIGHT 90
 #define LEFT -90
 #define CENTER 0
-
+ 
 #endif /* SERVOMOTOR_H_ */
