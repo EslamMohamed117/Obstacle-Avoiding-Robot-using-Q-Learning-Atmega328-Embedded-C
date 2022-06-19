@@ -8,49 +8,45 @@
 
 u16 ultarasonic_distance()
 {
-	u16 a,b,high,distance;
+	u16 rising,falling,high,distance;
+	//Reset TCCR1A @ Not used
 	TCCR1A = 0;
-	// No modification is needed in the register TCCR1A
-	
-	TIFR1 = (1<<ICF1);  // Clear ICF (Input Capture flag)
-	
-	DIO_SetPinValue(PORT3,PIN7,1);//here we are configuring the rising edge of the trigger
+	//Clear the ICF 
+	SET_BIT(TIFR1,ICF1);
+	//Sending a pulse with 50us to trigger the ultrasonic to begin
+	DIO_SetPinValue(PORT3,PIN7,1);
 	_delay_us(500);
-	DIO_SetPinValue(PORT3,PIN7,0); // waiting about 50 micro second as pulse duration
+	DIO_SetPinValue(PORT3,PIN7,0); 
 	
-	// again we are configuring the falling after
-	//providing the suitable width duration which must be
-	//more than 10 microsecond
-	
-	//1100 0010
-	//bit1 prescaling is required FCPU / 8
-	//bit7 is set to set ICES1 to 1 to adjust at the rising edge
-	//bit6 to adjust noise cancellation
-	
-	TCCR1B = 0xc2;  	/* Rising edge, prescaling F_CPU/8 , noise canceler*/
-	//waiting till the Input Capture Flag set to one
-	//at that case thats mean the the rising edge value occured
-	
+	/*Fti = Fcpu/8 @ pre scaler value = 8
+	  Enable noise cancellation
+	  Adjust ICES1 at rising edge  */
+	TCCR1B = 0xc2;
+	//Wait till the rising edge of the ultrasonic ECHO wave occur
 	while ((TIFR1&(1<<ICF1)) == 0);
-	a = ICR1;  		/* Take value of capture register */
-	TIFR1 = (1<<ICF1);  	/* Clear ICF flag */
-	//1000 0010
-	//bit0 no prescaling is required
-	//bit6 is cleared so ICES1 will be adjusted at the falling edge
-	//bit7 to adjust noise cancellation
-	
-	TCCR1B = 0x82;  	/* Falling edge, prescaler F_CPU/8 ,noise canceler*/
+	//Get the value at rising edge @ from capture register
+	rising = ICR1; 
+	//Clear ICF
+	SET_BIT(TIFR1,ICF1);
+
+	/* Fti = Fcpu/8 @ pre scaler value = 8
+	   Enable noise cancellation
+	   Adjust ICES1 at falling edge	 */
+	TCCR1B = 0x82;  	
+	//Wait till the falling edge of the ultrasonic ECHO wave occur
 	while ((TIFR1&(1<<ICF1)) == 0);
-	b = ICR1;  		/* Take value of capture register */
-	TIFR1 = (1<<ICF1);  	/* Clear ICF flag */
+	//Get the value at falling edge @ from capture register
+	falling = ICR1;  		
+	//Clear ICF
+	SET_BIT(TIFR1,ICF1);	
 	
-	//waiting till the Input Capture Flag reset to zero
-	//at that case thats mean the the falling edge value captured in the
-	//input capture register
+	//Clear TCNT1
 	TCNT1=0;
-	TCCR1B = 0;  		/* Stop the timer */
-	high=b-a;
+	//Reset TCCR1B @ Stop timer
+	TCCR1B = 0;
+	//Getting the high pulse duration
+	high=falling-rising;
+	// distance = (duration * speed of sound) / (Frequency *2)
 	distance=((high*34600)/((F_CPU/8)*2 )) ;
-	
 	return distance;
 }

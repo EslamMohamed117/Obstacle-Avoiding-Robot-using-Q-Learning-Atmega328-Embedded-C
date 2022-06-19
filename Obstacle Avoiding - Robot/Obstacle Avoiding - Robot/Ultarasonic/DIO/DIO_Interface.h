@@ -15,8 +15,8 @@
 
 
 #define PORT1 1 // for portB 
-#define PORT2 2
-#define PORT3 3
+#define PORT2 2 // for portC
+#define PORT3 3 // for portD
 
 
 

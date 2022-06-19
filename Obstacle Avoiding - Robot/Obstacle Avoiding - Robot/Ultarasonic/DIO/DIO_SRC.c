@@ -144,7 +144,7 @@ extern void DIO_SetPortDirection(u8 U8PortID, u8 U8PortDir)
 }
 
 
-/*********************************************HEADER****************************8888**********************/
+/*********************************************HEADER******************************************************/
 
 /*Description: DIO_SetPortDirection is a function to set the value of the port
 			   and choose which port id that will be used and the port direction that will be used as well
